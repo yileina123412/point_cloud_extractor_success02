@@ -1,5 +1,5 @@
 #include "powerline_extractor.h"
-#include "powerline_coarse_extractor.h"
+
 
 PowerlineExtractor::PowerlineExtractor(ros::NodeHandle& nh, ros::NodeHandle& private_nh)
     : nh_(nh), 
@@ -7,7 +7,6 @@ PowerlineExtractor::PowerlineExtractor(ros::NodeHandle& nh, ros::NodeHandle& pri
       first_cloud_received_(false),
       preprocessor__output_cloud_(new pcl::PointCloud<pcl::PointXYZI>()),
       extractor_s__output_cloud_(new pcl::PointCloud<pcl::PointXYZI>()),
-      obstacle_cluster_output_cloud(new pcl::PointCloud<pcl::PointXYZI>()),
       original_cloud_(new pcl::PointCloud<pcl::PointXYZI>()),
       preprocessed_cloud_(new pcl::PointCloud<pcl::PointXYZI>()),
       non_ground_cloud_(new pcl::PointCloud<pcl::PointXYZI>()),
@@ -86,16 +85,7 @@ void PowerlineExtractor::loadParameters() {
 }
 
 void PowerlineExtractor::initializeCoarseExtractor() {
-    // 创建粗提取器
-    coarse_extractor_ = std::make_unique<PowerlineCoarseExtractor>();
-    
-    // 配置粗提取器参数
-    coarse_extractor_->setPCARadius(pca_radius_);
-    coarse_extractor_->setLinearityThreshold(linearity_threshold_);
-    coarse_extractor_->setVoxelSize(voxel_size_);
-    coarse_extractor_->setRangeFilter(min_range_, max_range_);
-    coarse_extractor_->setHeightFilter(min_height_, max_height_);
-    coarse_extractor_->setOutlierRemovalParams(outlier_mean_k_, outlier_std_thresh_);
+
     
     ROS_INFO("Coarse extractor initialized with parameters");
 }
@@ -124,9 +114,6 @@ void PowerlineExtractor::initializePublishers() {
 
 
 
-    obstacle_cluster_cloud_pub_ = private_nh_.advertise<sensor_msgs::PointCloud2>("obstacle_cluster_cloud", 1);
-
-
     original_cloud_pub_ = private_nh_.advertise<sensor_msgs::PointCloud2>("original_cloud", 1);
     preprocessed_cloud_pub_ = private_nh_.advertise<sensor_msgs::PointCloud2>("preprocessed_cloud", 1);
     powerline_cloud_pub_ = private_nh_.advertise<sensor_msgs::PointCloud2>("powerline_cloud", 1);
@@ -149,8 +136,7 @@ void PowerlineExtractor::initializeAccumulateCloud()
     //可视化距离
     analyzer_.reset(new ObstacleAnalyzer(nh_));
 
-    // 初始化障碍物过滤器
-    obstacle_cluster_.reset(new ObstacleClustering(nh_));
+
    
 
 
@@ -200,8 +186,8 @@ void PowerlineExtractor::pointCloudCallback(const sensor_msgs::PointCloud2::Cons
         // extractor_s_->visualizeParameters(preprocessor_);
 
 
-        // obstacle_cluster_->process(original_cloud_, obstacle_cluster_output_cloud, excluded_regions);
-        // map_builder_->processPointCloud(obstacle_cluster_output_cloud,static_map,dynamic_map);
+
+
 
         
         
@@ -240,12 +226,8 @@ void PowerlineExtractor::pointCloudCallback(const sensor_msgs::PointCloud2::Cons
 
         
         
-        // 获取并打印统计信息
-        size_t input_size, preprocessed_size, output_size;
-        coarse_extractor_->getExtractionStats(input_size, preprocessed_size, output_size);
-        
-        ROS_DEBUG("Processed point cloud: original(%zu), preprocessed(%zu), powerline(%zu), clustered(%zu)",
-                 input_size, preprocessed_size, output_size, clustered_powerline_cloud_->size());
+
+
                  
     } catch (const std::exception& e) {
         ROS_ERROR("Error processing point cloud: %s", e.what());
@@ -340,13 +322,7 @@ void PowerlineExtractor::publishPointClouds(const pcl::PointCloud<pcl::PointXYZI
         original_msg.header = header;
         original_cloud_pub_.publish(original_msg);
     }
-    if(obstacle_cluster_cloud_pub_.getNumSubscribers() > 0 && !obstacle_cluster_output_cloud->empty()){
-        sensor_msgs::PointCloud2 obstacle_cluster_msg;
-        pcl::toROSMsg(*obstacle_cluster_output_cloud, obstacle_cluster_msg);
-        obstacle_cluster_msg.header = header;
-        obstacle_cluster_cloud_pub_.publish(obstacle_cluster_msg);
 
-    }
 
     if( preprocessor_cloud_pub_.getNumSubscribers() > 0 && !preprocessor__output_cloud_->empty()){
         sensor_msgs::PointCloud2 temp_msg;

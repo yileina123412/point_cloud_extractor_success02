@@ -24,7 +24,7 @@
 #include "power_line_coarse_extractor_s.h"
 
 
-#include "obstacle_clustering.h"
+
 
 #include "power_line_filter.h"
 
@@ -83,7 +83,6 @@ private:
     ros::Publisher preprocessor_cloud_pub_;    //预处理后的点云
     ros::Publisher extractor_s_cloud_pub_;    //粗提取_s后的点云
 
-    ros::Publisher obstacle_cluster_cloud_pub_; 
     ros::Publisher fine_extractor_cloud_pub_;      // octree累积点云发布器（用于调试）
     ros::Publisher coarse_filter_cloud_pub_;  
     ros::Subscriber point_cloud_sub_;
@@ -118,11 +117,10 @@ private:
 
 
 
-    //障碍物提取器
-    std::unique_ptr<ObstacleClustering> obstacle_cluster_;
 
-    pcl::PointCloud<pcl::PointXYZI>::Ptr obstacle_cluster_output_cloud;
-    std::vector<BoundingBox> excluded_regions;
+
+
+
 
 
 
@@ -130,8 +128,7 @@ private:
 
 
     
-    // 粗提取器
-    std::unique_ptr<PowerlineCoarseExtractor> coarse_extractor_;
+
 
     //粗步过滤
     std::unique_ptr<PowerLineFilter> coarse_filter_;

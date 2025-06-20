@@ -2340,11 +2340,6 @@ powerline_extractor/CMakeFiles/powerline_extractor.dir/src/powerline_extractor.c
  /usr/include/pcl-1.10/pcl/features/normal_3d.h \
  /usr/include/pcl-1.10/pcl/features/feature.h \
  /usr/include/pcl-1.10/pcl/features/impl/feature.hpp \
- /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/include/obstacle_clustering.h \
- /usr/include/pcl-1.10/pcl/features/moment_of_inertia_estimation.h \
- /opt/ros/noetic/include/visualization_msgs/Marker.h \
- /opt/ros/noetic/include/std_msgs/ColorRGBA.h \
- /opt/ros/noetic/include/visualization_msgs/MarkerArray.h \
  /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/include/power_line_filter.h \
  /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/include/power_line_fine_extraction.h \
  /usr/include/pcl-1.10/pcl/common/pca.h \
@@ -2356,6 +2351,6 @@ powerline_extractor/CMakeFiles/powerline_extractor.dir/src/powerline_extractor.c
  /usr/include/pcl-1.10/pcl/sample_consensus/model_types.h \
  /usr/include/pcl-1.10/pcl/sample_consensus/sac_model_line.h \
  /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/include/obstacle_analyzer.h \
- /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/include/powerline_coarse_extractor.h \
- /usr/include/pcl-1.10/pcl/filters/statistical_outlier_removal.h \
- /usr/include/pcl-1.10/pcl/filters/passthrough.h
+ /opt/ros/noetic/include/visualization_msgs/MarkerArray.h \
+ /opt/ros/noetic/include/visualization_msgs/Marker.h \
+ /opt/ros/noetic/include/std_msgs/ColorRGBA.h

@@ -155,14 +155,8 @@ link_directories(
 # )
 add_library(${PROJECT_NAME}
   src/powerline_extractor.cpp
-  src/rough_extraction.cpp
-  src/powerline_coarse_extractor.cpp
-  src/point_cloud_accumulator.cpp
-  src/pointcloud_accumulator_octree
   src/power_line_fine_extraction.cpp
-  src/map_builder.cpp
   src/power_line_filter.cpp
-  src/obstacle_clustering.cpp
   src/point_cloud_preprocessor.cpp
   src/power_line_coarse_extractor_s.cpp
   src/obstacle_analyzer.cpp
