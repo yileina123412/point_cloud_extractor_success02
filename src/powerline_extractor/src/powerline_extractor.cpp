@@ -8,7 +8,6 @@ PowerlineExtractor::PowerlineExtractor(ros::NodeHandle& nh, ros::NodeHandle& pri
       preprocessor__output_cloud_(new pcl::PointCloud<pcl::PointXYZI>()),
       extractor_s__output_cloud_(new pcl::PointCloud<pcl::PointXYZI>()),
       original_cloud_(new pcl::PointCloud<pcl::PointXYZI>()),
-      preprocessed_cloud_(new pcl::PointCloud<pcl::PointXYZI>()),
       non_ground_cloud_(new pcl::PointCloud<pcl::PointXYZI>()),
       powerline_cloud_(new pcl::PointCloud<pcl::PointXYZI>()),
       clustered_powerline_cloud_(new pcl::PointCloud<pcl::PointXYZI>()),
@@ -24,8 +23,7 @@ PowerlineExtractor::PowerlineExtractor(ros::NodeHandle& nh, ros::NodeHandle& pri
     //初始化累积点云
     initializeAccumulateCloud();
     
-    // 初始化粗提取器
-    initializeCoarseExtractor();
+
     // 初始化精提取器
     initializeFineExtractor();
     
@@ -84,15 +82,7 @@ void PowerlineExtractor::loadParameters() {
     ROS_INFO("Process frequency: %.1f Hz", process_frequency_);
 }
 
-void PowerlineExtractor::initializeCoarseExtractor() {
 
-    
-    ROS_INFO("Coarse extractor initialized with parameters");
-}
-void PowerlineExtractor::initializeCoarseFilter()
-{
-    coarse_filter_ = std::make_unique<PowerLineFilter>(nh_);
-}
 
 void PowerlineExtractor::initializeFineExtractor(){
 
@@ -115,12 +105,9 @@ void PowerlineExtractor::initializePublishers() {
 
 
     original_cloud_pub_ = private_nh_.advertise<sensor_msgs::PointCloud2>("original_cloud", 1);
-    preprocessed_cloud_pub_ = private_nh_.advertise<sensor_msgs::PointCloud2>("preprocessed_cloud", 1);
     powerline_cloud_pub_ = private_nh_.advertise<sensor_msgs::PointCloud2>("powerline_cloud", 1);
     clustered_powerline_cloud_pub_ = private_nh_.advertise<sensor_msgs::PointCloud2>("clustered_powerline_cloud", 1);
 
-    //pca粗提取后过滤
-    coarse_filter_cloud_pub_ = private_nh_.advertise<sensor_msgs::PointCloud2>("coarse_filter_cloud", 1);
     
 
     fine_extractor_cloud_pub_ = private_nh_.advertise<sensor_msgs::PointCloud2>("fine_extractor_cloud", 1);
@@ -131,14 +118,10 @@ void PowerlineExtractor::initializeAccumulateCloud()
     //点云数据预处理
     preprocessor_.reset(new PointCloudPreprocessor(nh_));
     //粗提取_s
-    extractor_s_.reset(new PowerLineExtractor(nh_));
+    extractor_s_.reset(new PowerLineCoarseExtractor(nh_));
 
     //可视化距离
     analyzer_.reset(new ObstacleAnalyzer(nh_));
-
-
-   
-
 
     ROS_INFO("Accumulate Cloud initialized");
 
@@ -148,6 +131,28 @@ void PowerlineExtractor::initializeSubscribers() {
     point_cloud_sub_ = nh_.subscribe(lidar_topic_, 1, &PowerlineExtractor::pointCloudCallback, this);
     ROS_INFO("Subscribed to point cloud topic: %s", lidar_topic_.c_str());
 }
+
+void PowerlineExtractor::process_first_method(const std_msgs::Header& header){
+
+    preprocessor_->processPointCloud(original_cloud_);
+    preprocessor__output_cloud_ = preprocessor_->getProcessedCloud();
+    extractor_s_->extractPowerLinesByPoints(preprocessor_);
+    extractor_s__output_cloud_ = extractor_s_->getExtractedCloud();
+    ROS_INFO("extractor_s__output_cloud_ 粗提取_s: %ld",extractor_s__output_cloud_->size());
+    
+    // 发布结果
+    publishPointClouds(original_cloud_, powerline_cloud_, 
+                        clustered_powerline_cloud_, header);
+    
+    // 精提取
+    fine_extractor_->extractPowerLines(extractor_s__output_cloud_,fine_extract_cloud_);
+
+    analyzer_->analyzeObstacles(preprocessor__output_cloud_, fine_extract_cloud_, obbs_);
+        //发布距离可视化
+    analyzer_->publishObbMarkers(obbs_, obb_marker_pub, "map");
+    analyzer_->publishPowerlineDistanceMarkers(fine_extract_cloud_,powerlines_distance_cloud_pub_,"map");
+}
+
 
 void PowerlineExtractor::pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& msg) {
     // 频率控制
@@ -177,58 +182,25 @@ void PowerlineExtractor::pointCloudCallback(const sensor_msgs::PointCloud2::Cons
             ROS_WARN("Received empty point cloud");
             return;
         }
+        process_first_method(transformed_msg.header);
 
-        preprocessor_->processPointCloud(original_cloud_);
-        preprocessor__output_cloud_ = preprocessor_->getProcessedCloud();
-        extractor_s_->extractPowerLinesByPoints(preprocessor_);
-        extractor_s__output_cloud_ = extractor_s_->getExtractedCloud();
-        ROS_INFO("extractor_s__output_cloud_ 粗提取_s: %ld",extractor_s__output_cloud_->size());
-        // extractor_s_->visualizeParameters(preprocessor_);
-
-
-
-
-
+        // preprocessor_->processPointCloud(original_cloud_);
+        // preprocessor__output_cloud_ = preprocessor_->getProcessedCloud();
+        // extractor_s_->extractPowerLinesByPoints(preprocessor_);
+        // extractor_s__output_cloud_ = extractor_s_->getExtractedCloud();
+        // ROS_INFO("extractor_s__output_cloud_ 粗提取_s: %ld",extractor_s__output_cloud_->size());
         
+        // // 发布结果
+        // publishPointClouds(original_cloud_, powerline_cloud_, 
+        //                   clustered_powerline_cloud_, transformed_msg.header);
         
-        // 使用粗提取器进行电力线粗提取
-        // if (!coarse_extractor_->extractPowerlines(original_cloud_, powerline_cloud_)) {
-        //     ROS_WARN("Coarse extraction failed, skipping this frame");
-        //     return;
-        // }
-    
+        // // 精提取
+        // fine_extractor_->extractPowerLines(extractor_s__output_cloud_,fine_extract_cloud_);
 
-        // if (!coarse_extractor_->extractPowerlines(original_cloud_, powerline_cloud_)) {
-        //     ROS_WARN("Coarse extraction failed, skipping this frame");
-        //     return;
-        // }
-        
-        // // 获取预处理后的点云（用于可视化）
-        // preprocessed_cloud_ = coarse_extractor_->getPreprocessedCloud();
-        
-        // // 聚类处理
-        // clusterPowerlines(powerline_cloud_, clustered_powerline_cloud_);
-        
-        //对粗提取的pca再次过滤
-        // coarse_filter_->filter(clustered_powerline_cloud_,static_map,filtered_pc_);
-
-        // 发布结果
-        publishPointClouds(original_cloud_, preprocessed_cloud_, powerline_cloud_, 
-                          clustered_powerline_cloud_, transformed_msg.header);
-        
-        // 精提取
-        fine_extractor_->extractPowerLines(extractor_s__output_cloud_,fine_extract_cloud_);
-
-        analyzer_->analyzeObstacles(preprocessor__output_cloud_, fine_extract_cloud_, obbs_);
-            //发布距离可视化
-        analyzer_->publishObbMarkers(obbs_, obb_marker_pub, "map");
-        analyzer_->publishPowerlineDistanceMarkers(fine_extract_cloud_,powerlines_distance_cloud_pub_,"map");
-
-        
-        
-
-
-                 
+        // analyzer_->analyzeObstacles(preprocessor__output_cloud_, fine_extract_cloud_, obbs_);
+        //     //发布距离可视化
+        // analyzer_->publishObbMarkers(obbs_, obb_marker_pub, "map");
+        // analyzer_->publishPowerlineDistanceMarkers(fine_extract_cloud_,powerlines_distance_cloud_pub_,"map");                
     } catch (const std::exception& e) {
         ROS_ERROR("Error processing point cloud: %s", e.what());
     }
@@ -261,56 +233,9 @@ bool PowerlineExtractor::transformPointCloud(const sensor_msgs::PointCloud2::Con
     }
 }
 
-void PowerlineExtractor::clusterPowerlines(const pcl::PointCloud<pcl::PointXYZI>::Ptr& input_cloud,
-                                         pcl::PointCloud<pcl::PointXYZI>::Ptr& clustered_cloud) {
-    clustered_cloud->clear();
-    
-    if (input_cloud->empty()) {
-        return;
-    }
-    
-    // 创建KD树用于欧几里得聚类
-    pcl::search::KdTree<pcl::PointXYZI>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZI>);
-    tree->setInputCloud(input_cloud);
-    
-    // 存储聚类结果
-    std::vector<pcl::PointIndices> cluster_indices;
-    
-    // 创建欧几里得聚类对象
-    pcl::EuclideanClusterExtraction<pcl::PointXYZI> ec;
-    ec.setClusterTolerance(cluster_tolerance_);
-    ec.setMinClusterSize(min_cluster_size_);
-    ec.setMaxClusterSize(max_cluster_size_);
-    ec.setSearchMethod(tree);
-    ec.setInputCloud(input_cloud);
-    ec.extract(cluster_indices);
-    
-    ROS_DEBUG("Found %zu clusters in powerline points", cluster_indices.size());
-    
-    // 处理每个聚类
-    int cluster_id = 0;
-    for (const auto& indices : cluster_indices) {
-        cluster_id++;
-        
-        // 提取当前聚类的点
-        for (const auto& index : indices.indices) {
-            pcl::PointXYZI point = input_cloud->points[index];
-            // 设置intensity值为聚类ID，便于可视化不同的聚类
-            point.intensity = static_cast<float>(cluster_id);
-            clustered_cloud->push_back(point);
-        }
-    }
-    
-    clustered_cloud->width = clustered_cloud->size();
-    clustered_cloud->height = 1;
-    clustered_cloud->is_dense = true;
-    
-    ROS_DEBUG("Clustering: %zu points -> %zu clusters -> %zu points",
-             input_cloud->size(), cluster_indices.size(), clustered_cloud->size());
-}
+
 
 void PowerlineExtractor::publishPointClouds(const pcl::PointCloud<pcl::PointXYZI>::Ptr& original_cloud,
-                                          const pcl::PointCloud<pcl::PointXYZI>::Ptr& preprocessed_cloud,
                                           const pcl::PointCloud<pcl::PointXYZI>::Ptr& powerline_cloud,
                                           const pcl::PointCloud<pcl::PointXYZI>::Ptr& clustered_cloud,
                                           const std_msgs::Header& header) {
@@ -338,25 +263,6 @@ void PowerlineExtractor::publishPointClouds(const pcl::PointCloud<pcl::PointXYZI
         extractor_s_cloud_pub_.publish(temp_msg);
     }
 
-
-    if(coarse_filter_cloud_pub_.getNumSubscribers() > 0 && !filtered_pc_->empty()){
-
-        sensor_msgs::PointCloud2 filtered_msg;
-        pcl::toROSMsg(*filtered_pc_, filtered_msg);
-        filtered_msg.header = header;
-        coarse_filter_cloud_pub_.publish(filtered_msg);
-
-    }
-    
-
-    // 发布预处理后的点云
-    if (preprocessed_cloud_pub_.getNumSubscribers() > 0 && !preprocessed_cloud->empty()) {
-        sensor_msgs::PointCloud2 preprocessed_msg;
-        pcl::toROSMsg(*preprocessed_cloud, preprocessed_msg);
-        preprocessed_msg.header = header;
-        preprocessed_cloud_pub_.publish(preprocessed_msg);
-    }
-    
     // 发布电力线点云
     if (powerline_cloud_pub_.getNumSubscribers() > 0 && !powerline_cloud->empty()) {
         sensor_msgs::PointCloud2 powerline_msg;
@@ -380,12 +286,5 @@ void PowerlineExtractor::publishPointClouds(const pcl::PointCloud<pcl::PointXYZI
         fine_extractor_cloud_pub_.publish(fine_extractor_msg);
     }
     
-    // 打印统计信息
-    static int frame_count = 0;
-    frame_count++;
-    if (frame_count % 10 == 0) {  // 每10帧打印一次
-        ROS_INFO("Frame %d - Points: original(%zu), preprocessed(%zu), powerline(%zu), clustered(%zu)",
-                 frame_count, original_cloud->size(), preprocessed_cloud->size(), 
-                 powerline_cloud->size(), clustered_cloud->size());
-    }
+
 }

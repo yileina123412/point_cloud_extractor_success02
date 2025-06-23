@@ -1,11 +1,11 @@
 
-preprocessor:
+preprocessor:    #1
   cube_size: 70.0          # 立方体边长（米）
   octree_resolution: 0.1   # Octree 分辨率（米）
   voxel_leaf_size: 0.11     # 降采样体素大小（米）
 
 
-power_line_coarse_extractor_s:
+power_line_coarse_extractor_s:      #1
   linearity_threshold: 0.7    # 线型度阈值
   curvature_threshold: 0.3    # 曲率阈值
   planarity_threshold: 0.1    # 平面度阈值（可选）
@@ -18,70 +18,8 @@ power_line_coarse_extractor_s:
 
 
 
-obstacle_clustering:
-  eps: 0.2                # DBSCAN 邻域半径
-  min_samples: 5         # DBSCAN 最小点数
-  height_threshold: 2.0   # 高度阈值 (米)
-  size_threshold: 10.0    # 尺寸阈值 (米)
-  planarity_threshold: 0.1 # 面型度阈值
-  min_points: 100
 
-
-
-
-
-
-accumulator:
-  # 累积参数
-  accumulation_time: 5       # 累积时间窗口(秒)
-  voxel_size: 0.1              # 累积体素大小(米)
-  stability_threshold: 0.05    # 稳定性阈值(米)
-  min_observations: 3          # 最小观测次数
-  max_vibration_amplitude: 0.1 # 最大抖动幅度(米)
-  
-  # 密度过滤参数
-  search_radius: 0.8           # 密度计算半径(米)
-  density_percentile: 0.25     # 密度过滤百分位数
-
-  voxel_leaf_size: 0.1    #降采样
-
-map_bulid:
-  # 地图构建参数
-  voxel_size: 0.1              # 体素网格大小（米）
-  confidence_increment: 0.3     # 观测到静态点时的置信度增量
-  confidence_decay_rate: 0.2   # 未观测时的置信度衰减率（每秒）
-  confidence_threshold: 0.2     # 置信度阈值，低于此值移除点
-  static_accumulation_time: 10.0 # 静态地图初始累积时间（秒）
-  dynamic_detection_window: 1.0  # 动态障碍物检测时间窗口（秒）
-  downsample_factor: 2.0        # 降采样因子（0-1，1表示无降采样）
-
-powerline_preprocessor:
-  # 时间窗口参数
-  accumulation_time: 0.8        # 窗口累积时长(秒)
-  max_history_time: 5.0         # 历史窗口保留时间(秒)
-  min_accumulation_time: 2.4    # 初期累积时间(秒)
-  
-  # 点云管理参数
-  weight_threshold: 0.01        # 权重阈值，用于清理低权重点
-  max_points_per_voxel: 100     # 每个体素的最大点数
-  
-  # 空间参数
-  voxel_size: 0.03              # 体素大小(米)
-  
-  # 抖动检测参数
-  min_points_per_window: 5      # 判断窗口完整性的最小点数
-  min_windows_for_vibration: 3  # 延迟抖动检测的最小窗口数
-  max_vibration_amplitude: 0.015 # 最大抖动幅度(米)
-  
-  # 稳定性参数
-  stability_threshold: 0.02     # 稳定性阈值(米)
-  min_observations: 3           # 最小观测次数
-
-octree:
-  accumulation_time: 1.2
-  voxel_resolution: 0.05
-
-fineextract:
+fineextract:                    #1
   # 电力线精细提取参数
   line_distance_threshold: 0.08      # 直线内点的距离阈值（米）
   line_min_points: 20              # 形成一条直线的最小点数
@@ -99,14 +37,8 @@ fineextract:
   cluster_min_points: 15   #聚类簇最小点数
 
 
-powerline_filter:
-  clustering_distance: 0.5          # 聚类距离阈值（单位：米）
-  length_threshold: 10.0            # 长度阈值（单位：米）
-  proximity_radius: 1.0             # 邻近圆柱半径（单位：米）
-  proximity_count_threshold: 100    # 邻近点数阈值
 
-
-obstacle_analyze:
+obstacle_analyze:              #1
   cluster_tolerance: 0.3        # 聚类距离(m)
   cluster_min_size: 30          # 最小点数
   cluster_max_size: 50000       # 最大点数

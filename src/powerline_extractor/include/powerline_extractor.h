@@ -22,15 +22,11 @@
 
 #include "point_cloud_preprocessor.h"
 #include "power_line_coarse_extractor_s.h"
-
-
-
-
-#include "power_line_filter.h"
-
 #include "power_line_fine_extraction.h"
-
 #include "obstacle_analyzer.h"
+//================= 融合多技术的现代电力线提取完整解决方案 =================
+#include "powerline_extraction/core/data_structures.h"
+#include "powerline_extraction/preprocessing/multilevel_preprocessor.h"
 
 // 前向声明粗提取器
 class PowerlineCoarseExtractor;
@@ -52,25 +48,22 @@ private:
     void loadParameters();
     void initializePublishers();
     void initializeSubscribers();
-    void initializeCoarseExtractor();
 
-    void initializeCoarseFilter();
+
+
     void initializeFineExtractor();
     
     // 点云变换
     bool transformPointCloud(const sensor_msgs::PointCloud2::ConstPtr& input_msg,
                            sensor_msgs::PointCloud2& transformed_msg);
     
-    // 聚类处理
-    void clusterPowerlines(const pcl::PointCloud<pcl::PointXYZI>::Ptr& input_cloud,
-                         pcl::PointCloud<pcl::PointXYZI>::Ptr& clustered_cloud);
-    
     // 发布点云
     void publishPointClouds(const pcl::PointCloud<pcl::PointXYZI>::Ptr& original_cloud,
-                          const pcl::PointCloud<pcl::PointXYZI>::Ptr& preprocessed_cloud,
                           const pcl::PointCloud<pcl::PointXYZI>::Ptr& powerline_cloud,
                           const pcl::PointCloud<pcl::PointXYZI>::Ptr& clustered_cloud,
                           const std_msgs::Header& header);
+
+    void process_first_method(const std_msgs::Header& header);   //第一种方法的执行函数
 
 private:
     // ROS 节点句柄
@@ -79,63 +72,42 @@ private:
     
     // 订阅器和发布器
 
-    // 在现有发布器后添加
     ros::Publisher preprocessor_cloud_pub_;    //预处理后的点云
     ros::Publisher extractor_s_cloud_pub_;    //粗提取_s后的点云
-
     ros::Publisher fine_extractor_cloud_pub_;      // octree累积点云发布器（用于调试）
-    ros::Publisher coarse_filter_cloud_pub_;  
     ros::Subscriber point_cloud_sub_;
     ros::Publisher original_cloud_pub_;
-    ros::Publisher preprocessed_cloud_pub_;
     ros::Publisher powerline_cloud_pub_;
     ros::Publisher clustered_powerline_cloud_pub_;
-
-
-    ros::Publisher obb_marker_pub;
-
+    ros::Publisher obb_marker_pub;  //距离可视化
     ros::Publisher powerlines_distance_cloud_pub_;
-    // 注意：移除了non_ground_cloud_pub_，因为不再进行地面点移除
+
+    ros::Publisher second_powerline_preprocessor_cloud_pub_;
+
+
     
     // TF变换
     std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
     std::unique_ptr<tf2_ros::TransformListener> tf_listener_;
 
-
+    //================= 初代方案 =================
     //点云数据预处理
     std::unique_ptr<PointCloudPreprocessor> preprocessor_;  //实例化类
     pcl::PointCloud<pcl::PointXYZI>::Ptr preprocessor__output_cloud_;  //输出预处理后的点云
     // pcl::octree::OctreePointCloudChangeDetector<pcl::PointXYZI>& octree_;  //输出的octree     octree = preprocessor.getOctree();
 
     //粗提取_s
-    std::unique_ptr<PowerLineExtractor> extractor_s_; 
+    std::unique_ptr<PowerLineCoarseExtractor> extractor_s_; 
     pcl::PointCloud<pcl::PointXYZI>::Ptr extractor_s__output_cloud_;
 
     //距离可视化
     std::unique_ptr<ObstacleAnalyzer> analyzer_; 
     std::vector<OrientedBoundingBox> obbs_;
 
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-    //粗步过滤
-    std::unique_ptr<PowerLineFilter> coarse_filter_;
-
     //精提取器
     std::unique_ptr<PowerLineFineExtractor> fine_extractor_;
-
+    //================= 融合多技术的现代电力线提取完整解决方案 =================
+    std::unique_ptr<powerline_extraction::MultiLevelPreprocessor> multi_preprocessor_;  //多层级预处理
     
     
     // 参数
@@ -167,7 +139,6 @@ private:
 
 
     pcl::PointCloud<pcl::PointXYZI>::Ptr original_cloud_;
-    pcl::PointCloud<pcl::PointXYZI>::Ptr preprocessed_cloud_;
     pcl::PointCloud<pcl::PointXYZI>::Ptr non_ground_cloud_;  // 保留用于兼容性，但不使用
     pcl::PointCloud<pcl::PointXYZI>::Ptr powerline_cloud_;
     pcl::PointCloud<pcl::PointXYZI>::Ptr clustered_powerline_cloud_;

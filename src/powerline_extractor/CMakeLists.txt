@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(powerline_extractor)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+#设置C++标准为14
+set(CMAKE_CXX_STANDARD 14)
+
+set(CMAKE_BUILD_TYPE Release) #指定Release 构件时会优化
+
+
+
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 
@@ -153,13 +161,24 @@ link_directories(
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/powerline_extractor.cpp
 # )
+
+
+
+
+# 源文件列表
+set(SOURCES
+  src/preprocessing/multilevel_preprocessor.cpp
+)
+
+
 add_library(${PROJECT_NAME}
   src/powerline_extractor.cpp
   src/power_line_fine_extraction.cpp
-  src/power_line_filter.cpp
+
   src/point_cloud_preprocessor.cpp
   src/power_line_coarse_extractor_s.cpp
   src/obstacle_analyzer.cpp
+  ${SOURCES}
   
 
 )

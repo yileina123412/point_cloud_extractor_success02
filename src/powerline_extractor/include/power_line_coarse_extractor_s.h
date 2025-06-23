@@ -12,9 +12,9 @@
 #include <ros/ros.h>
 #include "point_cloud_preprocessor.h"
 
-class PowerLineExtractor {
+class PowerLineCoarseExtractor {
 public:
-    PowerLineExtractor(ros::NodeHandle& nh);
+    PowerLineCoarseExtractor(ros::NodeHandle& nh);
     void extractPowerLines(const std::unique_ptr<PointCloudPreprocessor>& preprocessor);
     void extractPowerLinesByPoints(const std::unique_ptr<PointCloudPreprocessor>& preprocessor_ptr);
     pcl::PointCloud<pcl::PointXYZI>::Ptr getExtractedCloud() const;

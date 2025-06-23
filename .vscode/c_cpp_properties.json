@@ -5,10 +5,16 @@
         "databaseFilename": "${default}",
         "limitSymbolsToIncludedHeaders": false
       },
+      "compileCommands": "${workspaceFolder}/build/compile_commands.json",
       "includePath": [
         "/opt/ros/noetic/include/**",
         "/home/furina/cloud_test_project/point_cloud_success_01/src/powerline_extractor/include/**",
-        "/usr/include/**"
+        "/usr/include/**",
+        "${workspaceFolder}/include/**",
+        "${workspaceFolder}/src/**",
+        "/usr/local/include/**",
+        "/usr/include/c++/**",
+        "/usr/include/x86_64-linux-gnu/c++/**"
       ],
       "name": "ROS",
       "intelliSenseMode": "gcc-x64",

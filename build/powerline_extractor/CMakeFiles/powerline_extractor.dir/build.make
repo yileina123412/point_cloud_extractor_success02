@@ -97,24 +97,10 @@ powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_fine_extra
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/powerline_extractor.dir/src/power_line_fine_extraction.cpp.s"
 	cd /home/furina/power_line_extractor/point_cloud_success_01/build/powerline_extractor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/power_line_fine_extraction.cpp -o CMakeFiles/powerline_extractor.dir/src/power_line_fine_extraction.cpp.s
 
-powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.o: powerline_extractor/CMakeFiles/powerline_extractor.dir/flags.make
-powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.o: /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/power_line_filter.cpp
-powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.o: powerline_extractor/CMakeFiles/powerline_extractor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/furina/power_line_extractor/point_cloud_success_01/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.o"
-	cd /home/furina/power_line_extractor/point_cloud_success_01/build/powerline_extractor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.o -MF CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.o.d -o CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.o -c /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/power_line_filter.cpp
-
-powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.i"
-	cd /home/furina/power_line_extractor/point_cloud_success_01/build/powerline_extractor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/power_line_filter.cpp > CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.i
-
-powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.s"
-	cd /home/furina/power_line_extractor/point_cloud_success_01/build/powerline_extractor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/power_line_filter.cpp -o CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.s
-
 powerline_extractor/CMakeFiles/powerline_extractor.dir/src/point_cloud_preprocessor.cpp.o: powerline_extractor/CMakeFiles/powerline_extractor.dir/flags.make
 powerline_extractor/CMakeFiles/powerline_extractor.dir/src/point_cloud_preprocessor.cpp.o: /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/point_cloud_preprocessor.cpp
 powerline_extractor/CMakeFiles/powerline_extractor.dir/src/point_cloud_preprocessor.cpp.o: powerline_extractor/CMakeFiles/powerline_extractor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/furina/power_line_extractor/point_cloud_success_01/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object powerline_extractor/CMakeFiles/powerline_extractor.dir/src/point_cloud_preprocessor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/furina/power_line_extractor/point_cloud_success_01/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object powerline_extractor/CMakeFiles/powerline_extractor.dir/src/point_cloud_preprocessor.cpp.o"
 	cd /home/furina/power_line_extractor/point_cloud_success_01/build/powerline_extractor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT powerline_extractor/CMakeFiles/powerline_extractor.dir/src/point_cloud_preprocessor.cpp.o -MF CMakeFiles/powerline_extractor.dir/src/point_cloud_preprocessor.cpp.o.d -o CMakeFiles/powerline_extractor.dir/src/point_cloud_preprocessor.cpp.o -c /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/point_cloud_preprocessor.cpp
 
 powerline_extractor/CMakeFiles/powerline_extractor.dir/src/point_cloud_preprocessor.cpp.i: cmake_force
@@ -128,7 +114,7 @@ powerline_extractor/CMakeFiles/powerline_extractor.dir/src/point_cloud_preproces
 powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_coarse_extractor_s.cpp.o: powerline_extractor/CMakeFiles/powerline_extractor.dir/flags.make
 powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_coarse_extractor_s.cpp.o: /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/power_line_coarse_extractor_s.cpp
 powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_coarse_extractor_s.cpp.o: powerline_extractor/CMakeFiles/powerline_extractor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/furina/power_line_extractor/point_cloud_success_01/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_coarse_extractor_s.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/furina/power_line_extractor/point_cloud_success_01/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_coarse_extractor_s.cpp.o"
 	cd /home/furina/power_line_extractor/point_cloud_success_01/build/powerline_extractor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_coarse_extractor_s.cpp.o -MF CMakeFiles/powerline_extractor.dir/src/power_line_coarse_extractor_s.cpp.o.d -o CMakeFiles/powerline_extractor.dir/src/power_line_coarse_extractor_s.cpp.o -c /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/power_line_coarse_extractor_s.cpp
 
 powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_coarse_extractor_s.cpp.i: cmake_force
@@ -142,7 +128,7 @@ powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_coarse_ext
 powerline_extractor/CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp.o: powerline_extractor/CMakeFiles/powerline_extractor.dir/flags.make
 powerline_extractor/CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp.o: /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/obstacle_analyzer.cpp
 powerline_extractor/CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp.o: powerline_extractor/CMakeFiles/powerline_extractor.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/furina/power_line_extractor/point_cloud_success_01/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object powerline_extractor/CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/furina/power_line_extractor/point_cloud_success_01/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object powerline_extractor/CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp.o"
 	cd /home/furina/power_line_extractor/point_cloud_success_01/build/powerline_extractor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT powerline_extractor/CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp.o -MF CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp.o.d -o CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp.o -c /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/obstacle_analyzer.cpp
 
 powerline_extractor/CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp.i: cmake_force
@@ -153,24 +139,38 @@ powerline_extractor/CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp.s"
 	cd /home/furina/power_line_extractor/point_cloud_success_01/build/powerline_extractor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/obstacle_analyzer.cpp -o CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp.s
 
+powerline_extractor/CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.o: powerline_extractor/CMakeFiles/powerline_extractor.dir/flags.make
+powerline_extractor/CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.o: /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/preprocessing/multilevel_preprocessor.cpp
+powerline_extractor/CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.o: powerline_extractor/CMakeFiles/powerline_extractor.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/furina/power_line_extractor/point_cloud_success_01/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object powerline_extractor/CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.o"
+	cd /home/furina/power_line_extractor/point_cloud_success_01/build/powerline_extractor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT powerline_extractor/CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.o -MF CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.o.d -o CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.o -c /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/preprocessing/multilevel_preprocessor.cpp
+
+powerline_extractor/CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.i"
+	cd /home/furina/power_line_extractor/point_cloud_success_01/build/powerline_extractor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/preprocessing/multilevel_preprocessor.cpp > CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.i
+
+powerline_extractor/CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.s"
+	cd /home/furina/power_line_extractor/point_cloud_success_01/build/powerline_extractor && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/furina/power_line_extractor/point_cloud_success_01/src/powerline_extractor/src/preprocessing/multilevel_preprocessor.cpp -o CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.s
+
 # Object files for target powerline_extractor
 powerline_extractor_OBJECTS = \
 "CMakeFiles/powerline_extractor.dir/src/powerline_extractor.cpp.o" \
 "CMakeFiles/powerline_extractor.dir/src/power_line_fine_extraction.cpp.o" \
-"CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.o" \
 "CMakeFiles/powerline_extractor.dir/src/point_cloud_preprocessor.cpp.o" \
 "CMakeFiles/powerline_extractor.dir/src/power_line_coarse_extractor_s.cpp.o" \
-"CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp.o"
+"CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp.o" \
+"CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.o"
 
 # External object files for target powerline_extractor
 powerline_extractor_EXTERNAL_OBJECTS =
 
 /home/furina/power_line_extractor/point_cloud_success_01/devel/lib/libpowerline_extractor.so: powerline_extractor/CMakeFiles/powerline_extractor.dir/src/powerline_extractor.cpp.o
 /home/furina/power_line_extractor/point_cloud_success_01/devel/lib/libpowerline_extractor.so: powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_fine_extraction.cpp.o
-/home/furina/power_line_extractor/point_cloud_success_01/devel/lib/libpowerline_extractor.so: powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_filter.cpp.o
 /home/furina/power_line_extractor/point_cloud_success_01/devel/lib/libpowerline_extractor.so: powerline_extractor/CMakeFiles/powerline_extractor.dir/src/point_cloud_preprocessor.cpp.o
 /home/furina/power_line_extractor/point_cloud_success_01/devel/lib/libpowerline_extractor.so: powerline_extractor/CMakeFiles/powerline_extractor.dir/src/power_line_coarse_extractor_s.cpp.o
 /home/furina/power_line_extractor/point_cloud_success_01/devel/lib/libpowerline_extractor.so: powerline_extractor/CMakeFiles/powerline_extractor.dir/src/obstacle_analyzer.cpp.o
+/home/furina/power_line_extractor/point_cloud_success_01/devel/lib/libpowerline_extractor.so: powerline_extractor/CMakeFiles/powerline_extractor.dir/src/preprocessing/multilevel_preprocessor.cpp.o
 /home/furina/power_line_extractor/point_cloud_success_01/devel/lib/libpowerline_extractor.so: powerline_extractor/CMakeFiles/powerline_extractor.dir/build.make
 /home/furina/power_line_extractor/point_cloud_success_01/devel/lib/libpowerline_extractor.so: /opt/ros/noetic/lib/libpcl_ros_filter.so
 /home/furina/power_line_extractor/point_cloud_success_01/devel/lib/libpowerline_extractor.so: /opt/ros/noetic/lib/libpcl_ros_tf.so

@@ -2,7 +2,7 @@
 #include <Eigen/Dense>
 #include <queue>
 
-PowerLineExtractor::PowerLineExtractor(ros::NodeHandle& nh) : nh_(nh),extracted_cloud_(new pcl::PointCloud<pcl::PointXYZI>) {
+PowerLineCoarseExtractor::PowerLineCoarseExtractor(ros::NodeHandle& nh) : nh_(nh),extracted_cloud_(new pcl::PointCloud<pcl::PointXYZI>) {
     loadParameters(nh);
     normal_estimation_.setRadiusSearch(0.5);
     kdtree_.reset(new pcl::search::KdTree<pcl::PointXYZI>);
@@ -11,7 +11,7 @@ PowerLineExtractor::PowerLineExtractor(ros::NodeHandle& nh) : nh_(nh),extracted_
     pub_variance_ = nh_.advertise<sensor_msgs::PointCloud2>("variance_cloud", 1);
 }
 
-void PowerLineExtractor::loadParameters(ros::NodeHandle& nh) {
+void PowerLineCoarseExtractor::loadParameters(ros::NodeHandle& nh) {
     // ros::NodeHandle nh("~");
     nh.param("power_line_coarse_extractor_s/linearity_threshold", linearity_threshold_, 0.7);
     nh.param("power_line_coarse_extractor_s/curvature_threshold", curvature_threshold_, 0.1);
@@ -30,7 +30,7 @@ void PowerLineExtractor::loadParameters(ros::NodeHandle& nh) {
 
 
 
-void PowerLineExtractor::manualClustering(const pcl::PointCloud<pcl::PointXYZI>::Ptr& cloud,
+void PowerLineCoarseExtractor::manualClustering(const pcl::PointCloud<pcl::PointXYZI>::Ptr& cloud,
                                           std::vector<pcl::PointIndices>& cluster_indices,
                                           double tolerance, int min_size) {
     if (cloud->empty()) return;
@@ -70,11 +70,11 @@ void PowerLineExtractor::manualClustering(const pcl::PointCloud<pcl::PointXYZI>:
     }
 }
 
-pcl::PointCloud<pcl::PointXYZI>::Ptr PowerLineExtractor::getExtractedCloud() const {
+pcl::PointCloud<pcl::PointXYZI>::Ptr PowerLineCoarseExtractor::getExtractedCloud() const {
     return extracted_cloud_;
 }
 // 新增逐点提取函数
-void PowerLineExtractor::extractPowerLinesByPoints(const std::unique_ptr<PointCloudPreprocessor>& preprocessor_ptr) {
+void PowerLineCoarseExtractor::extractPowerLinesByPoints(const std::unique_ptr<PointCloudPreprocessor>& preprocessor_ptr) {
     // 获取预处理后的点云
     auto cloud = preprocessor_ptr->getProcessedCloud();
     if (cloud->empty()) {
@@ -123,7 +123,7 @@ void PowerLineExtractor::extractPowerLinesByPoints(const std::unique_ptr<PointCl
 }
 
 // 新增辅助函数：判断单个点是否为电力线点
-bool PowerLineExtractor::isPowerLinePoint(const pcl::PointCloud<pcl::PointXYZI>::Ptr& cloud,
+bool PowerLineCoarseExtractor::isPowerLinePoint(const pcl::PointCloud<pcl::PointXYZI>::Ptr& cloud,
                                           const pcl::PointCloud<pcl::Normal>::Ptr& normals,
                                           int index) {
     // 获取邻域点
@@ -176,7 +176,7 @@ bool PowerLineExtractor::isPowerLinePoint(const pcl::PointCloud<pcl::PointXYZI>:
 
 }
 
-void PowerLineExtractor::filterShortClusters(const pcl::PointCloud<pcl::PointXYZI>::Ptr& cloud,
+void PowerLineCoarseExtractor::filterShortClusters(const pcl::PointCloud<pcl::PointXYZI>::Ptr& cloud,
     std::vector<pcl::PointIndices>& cluster_indices,
     double min_length) {
 std::vector<pcl::PointIndices> filtered_indices;
@@ -211,7 +211,7 @@ cluster_indices = filtered_indices;
 //  可视化函数实现
 
 
-void PowerLineExtractor::visualizeParameters(const std::unique_ptr<PointCloudPreprocessor>& preprocessor_ptr) {
+void PowerLineCoarseExtractor::visualizeParameters(const std::unique_ptr<PointCloudPreprocessor>& preprocessor_ptr) {
     auto cloud = preprocessor_ptr->getProcessedCloud();
     if (cloud->empty()) {
         ROS_WARN("Input point cloud is empty!");
